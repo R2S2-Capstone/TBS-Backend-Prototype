@@ -1,24 +1,24 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TBS_Backend_Prototype.Models;
+using TBS_Backend_Prototype.Repository.Dealers;
 
 namespace TBS_Backend_Prototype.Controllers
 {
     public class DealersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDealerRepository _repository;
 
-        public DealersController(ApplicationDbContext context)
+        public DealersController(IDealerRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: Dealers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Dealers.ToListAsync());
+            return View(await _repository.GetAllDealers());
         }
 
         // GET: Dealers/Details/5
@@ -28,9 +28,7 @@ namespace TBS_Backend_Prototype.Controllers
             {
                 return NotFound();
             }
-
-            var dealer = await _context.Dealers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var dealer = await _repository.GetById(id.Value);
             if (dealer == null)
             {
                 return NotFound();
@@ -54,8 +52,7 @@ namespace TBS_Backend_Prototype.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(dealer);
-                await _context.SaveChangesAsync();
+                await _repository.Add(dealer);
                 return RedirectToAction(nameof(Index));
             }
             return View(dealer);
@@ -68,8 +65,7 @@ namespace TBS_Backend_Prototype.Controllers
             {
                 return NotFound();
             }
-
-            var dealer = await _context.Dealers.FindAsync(id);
+            var dealer = await _repository.GetById(id.Value);
             if (dealer == null)
             {
                 return NotFound();
@@ -93,8 +89,7 @@ namespace TBS_Backend_Prototype.Controllers
             {
                 try
                 {
-                    _context.Update(dealer);
-                    await _context.SaveChangesAsync();
+                    await _repository.Update(dealer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,9 +114,7 @@ namespace TBS_Backend_Prototype.Controllers
             {
                 return NotFound();
             }
-
-            var dealer = await _context.Dealers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var dealer = await _repository.GetById(id.Value);
             if (dealer == null)
             {
                 return NotFound();
@@ -135,15 +128,14 @@ namespace TBS_Backend_Prototype.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dealer = await _context.Dealers.FindAsync(id);
-            _context.Dealers.Remove(dealer);
-            await _context.SaveChangesAsync();
+            await _repository.Remove(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool DealerExists(int id)
         {
-            return _context.Dealers.Any(e => e.Id == id);
+            var result = _repository.DealerExistsAsync(id);
+            return result.Result;
         }
     }
 }

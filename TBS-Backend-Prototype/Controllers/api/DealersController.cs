@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TBS_Backend_Prototype.Models;
+using TBS_Backend_Prototype.Repository.Dealers;
 
 namespace TBS_Backend_Prototype.Controllers.api
 {
@@ -11,25 +11,25 @@ namespace TBS_Backend_Prototype.Controllers.api
     [ApiController]
     public class DealersController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDealerRepository _repository;
 
-        public DealersController(ApplicationDbContext context)
+        public DealersController(IDealerRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: api/Dealers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Dealer>>> GetDealers()
+        public async Task<IEnumerable<Dealer>> GetDealers()
         {
-            return await _context.Dealers.ToListAsync();
+            return await _repository.GetAllDealers();
         }
 
         // GET: api/Dealers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Dealer>> GetDealer(int id)
         {
-            var dealer = await _context.Dealers.FindAsync(id);
+            var dealer = await _repository.GetById(id);
 
             if (dealer == null)
             {
@@ -48,15 +48,13 @@ namespace TBS_Backend_Prototype.Controllers.api
                 return BadRequest();
             }
 
-            _context.Entry(dealer).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _repository.Update(dealer);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DealerExists(id))
+                if (!await DealerExistsAsync(id))
                 {
                     return NotFound();
                 }
@@ -73,8 +71,7 @@ namespace TBS_Backend_Prototype.Controllers.api
         [HttpPost]
         public async Task<ActionResult<Dealer>> PostDealer(Dealer dealer)
         {
-            _context.Dealers.Add(dealer);
-            await _context.SaveChangesAsync();
+            await _repository.Add(dealer);
 
             return CreatedAtAction("GetDealer", new { id = dealer.Id }, dealer);
         }
@@ -83,21 +80,20 @@ namespace TBS_Backend_Prototype.Controllers.api
         [HttpDelete("{id}")]
         public async Task<ActionResult<Dealer>> DeleteDealer(int id)
         {
-            var dealer = await _context.Dealers.FindAsync(id);
+            var dealer = await _repository.GetById(id);
             if (dealer == null)
             {
                 return NotFound();
             }
 
-            _context.Dealers.Remove(dealer);
-            await _context.SaveChangesAsync();
+            await _repository.Remove(id);
 
             return dealer;
         }
 
-        private bool DealerExists(int id)
+        private async Task<bool> DealerExistsAsync(int id)
         {
-            return _context.Dealers.Any(e => e.Id == id);
+            return await _repository.DealerExistsAsync(id);
         }
     }
 }

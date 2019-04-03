@@ -1,24 +1,24 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TBS_Backend_Prototype.Models;
+using TBS_Backend_Prototype.Repository.Vehicles;
 
 namespace TBS_Backend_Prototype.Controllers
 {
     public class VehiclesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IVehicleRepository _repository;
 
-        public VehiclesController(ApplicationDbContext context)
+        public VehiclesController(IVehicleRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vehicles.ToListAsync());
+            return View(await _repository.GetAllVehicles());
         }
 
         // GET: Vehicles/Details/5
@@ -29,8 +29,7 @@ namespace TBS_Backend_Prototype.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var vehicle = await _repository.GetById(id.Value);
             if (vehicle == null)
             {
                 return NotFound();
@@ -54,8 +53,7 @@ namespace TBS_Backend_Prototype.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vehicle);
-                await _context.SaveChangesAsync();
+                await _repository.Add(vehicle);
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
@@ -69,7 +67,7 @@ namespace TBS_Backend_Prototype.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            var vehicle = await _repository.GetById(id.Value);
             if (vehicle == null)
             {
                 return NotFound();
@@ -93,8 +91,7 @@ namespace TBS_Backend_Prototype.Controllers
             {
                 try
                 {
-                    _context.Update(vehicle);
-                    await _context.SaveChangesAsync();
+                    await _repository.Update(vehicle);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,8 +117,7 @@ namespace TBS_Backend_Prototype.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var vehicle = await _repository.GetById(id.Value);
             if (vehicle == null)
             {
                 return NotFound();
@@ -135,15 +131,14 @@ namespace TBS_Backend_Prototype.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vehicle = await _context.Vehicles.FindAsync(id);
-            _context.Vehicles.Remove(vehicle);
-            await _context.SaveChangesAsync();
+            await _repository.Remove(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool VehicleExists(int id)
         {
-            return _context.Vehicles.Any(e => e.Id == id);
+            var result = _repository.VehicleExists(id);
+            return result.Result;
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TBS_Backend_Prototype.Models;
+using TBS_Backend_Prototype.Repository.Vehicles;
 
 namespace TBS_Backend_Prototype.Controllers.api
 {
@@ -11,25 +11,25 @@ namespace TBS_Backend_Prototype.Controllers.api
     [ApiController]
     public class VehiclesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IVehicleRepository _repository;
 
-        public VehiclesController(ApplicationDbContext context)
+        public VehiclesController(IVehicleRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: api/Vehicles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
+        public async Task<IEnumerable<Vehicle>> GetVehicles()
         {
-            return await _context.Vehicles.ToListAsync();
+            return await _repository.GetAllVehicles();
         }
 
         // GET: api/Vehicles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Vehicle>> GetVehicle(int id)
         {
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            var vehicle = await _repository.GetById(id);
 
             if (vehicle == null)
             {
@@ -48,15 +48,13 @@ namespace TBS_Backend_Prototype.Controllers.api
                 return BadRequest();
             }
 
-            _context.Entry(vehicle).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _repository.Update(vehicle);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VehicleExists(id))
+                if (!await VehicleExists(id))
                 {
                     return NotFound();
                 }
@@ -73,8 +71,7 @@ namespace TBS_Backend_Prototype.Controllers.api
         [HttpPost]
         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
         {
-            _context.Vehicles.Add(vehicle);
-            await _context.SaveChangesAsync();
+            await _repository.Add(vehicle);
 
             return CreatedAtAction("GetVehicle", new { id = vehicle.Id }, vehicle);
         }
@@ -83,21 +80,20 @@ namespace TBS_Backend_Prototype.Controllers.api
         [HttpDelete("{id}")]
         public async Task<ActionResult<Vehicle>> DeleteVehicle(int id)
         {
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            var vehicle = await _repository.GetById(id);
             if (vehicle == null)
             {
                 return NotFound();
             }
 
-            _context.Vehicles.Remove(vehicle);
-            await _context.SaveChangesAsync();
+            await _repository.Remove(id);
 
             return vehicle;
         }
 
-        private bool VehicleExists(int id)
+        private async Task<bool> VehicleExists(int id)
         {
-            return _context.Vehicles.Any(e => e.Id == id);
+            return await _repository.VehicleExists(id);
         }
     }
 }
