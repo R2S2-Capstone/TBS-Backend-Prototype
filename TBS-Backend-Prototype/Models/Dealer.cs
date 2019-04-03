@@ -1,21 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TBS_Backend_Prototype.Models
 {
     public class Dealer
     {
         public int Id { get; set; }
-        public string ContactFirstName { get; set; }
-        public string ContactLasttName { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string PaymentEmail { get; set; }
+
+        [Required(ErrorMessage = "Please enter a company name")]
+        [DisplayName("Company name")]
         public string CompanyName { get; set; }
-        public Address Address { get; set; }
+
+        [Required(ErrorMessage = " Please enter an email")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+        [DisplayName("Payment email")]
+        public string ComapnyPaymentEmail { get; set; }
+
+        [Required(ErrorMessage = " Please enter an address")]
+        [DisplayName("Company address")]
+        public string ComapnyAddress { get; set; }
+
+        [Required(ErrorMessage = "Please enter a first name")]
+        [DisplayName("Contact first name")]
+        public string ContactFirstName { get; set; }
+
+        [Required(ErrorMessage ="Please enter a last name")]
+        [DisplayName("Contact last name")]
+        public string ContactLastName { get; set; }
+
+        [Required(ErrorMessage = "Please enter a phone number")]
+        [Phone(ErrorMessage = "Please enter a valid phone number")]
+        [DisplayName("Contact phone number")]
+        public string ContactPhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Please enter an email")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+        [DisplayName("Contact email")]
+        public string ContactEmail { get; set; }
     }
 }

@@ -9,22 +9,22 @@ using TBS_Backend_Prototype.Models;
 
 namespace TBS_Backend_Prototype.Controllers
 {
-    public class MovesController : Controller
+    public class VehiclesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public MovesController(ApplicationDbContext context)
+        public VehiclesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Moves
+        // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Moves.ToListAsync());
+            return View(await _context.Vehicles.ToListAsync());
         }
 
-        // GET: Moves/Details/5
+        // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace TBS_Backend_Prototype.Controllers
                 return NotFound();
             }
 
-            var move = await _context.Moves
+            var vehicle = await _context.Vehicles
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (move == null)
+            if (vehicle == null)
             {
                 return NotFound();
             }
 
-            return View(move);
+            return View(vehicle);
         }
 
-        // GET: Moves/Create
+        // GET: Vehicles/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Moves/Create
+        // POST: Vehicles/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PickUpDate,DropOffDate,BiddingComplete,TransportComplete,DealerAcceptedComplete,UserCompanyName")] Move move)
+        public async Task<IActionResult> Create([Bind("Id,Year,Make,Model")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(move);
+                _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(move);
+            return View(vehicle);
         }
 
-        // GET: Moves/Edit/5
+        // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace TBS_Backend_Prototype.Controllers
                 return NotFound();
             }
 
-            var move = await _context.Moves.FindAsync(id);
-            if (move == null)
+            var vehicle = await _context.Vehicles.FindAsync(id);
+            if (vehicle == null)
             {
                 return NotFound();
             }
-            return View(move);
+            return View(vehicle);
         }
 
-        // POST: Moves/Edit/5
+        // POST: Vehicles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PickUpDate,DropOffDate,BiddingComplete,TransportComplete,DealerAcceptedComplete,UserCompanyName")] Move move)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Year,Make,Model")] Vehicle vehicle)
         {
-            if (id != move.Id)
+            if (id != vehicle.Id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace TBS_Backend_Prototype.Controllers
             {
                 try
                 {
-                    _context.Update(move);
+                    _context.Update(vehicle);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MoveExists(move.Id))
+                    if (!VehicleExists(vehicle.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace TBS_Backend_Prototype.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(move);
+            return View(vehicle);
         }
 
-        // GET: Moves/Delete/5
+        // GET: Vehicles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace TBS_Backend_Prototype.Controllers
                 return NotFound();
             }
 
-            var move = await _context.Moves
+            var vehicle = await _context.Vehicles
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (move == null)
+            if (vehicle == null)
             {
                 return NotFound();
             }
 
-            return View(move);
+            return View(vehicle);
         }
 
-        // POST: Moves/Delete/5
+        // POST: Vehicles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var move = await _context.Moves.FindAsync(id);
-            _context.Moves.Remove(move);
+            var vehicle = await _context.Vehicles.FindAsync(id);
+            _context.Vehicles.Remove(vehicle);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MoveExists(int id)
+        private bool VehicleExists(int id)
         {
-            return _context.Moves.Any(e => e.Id == id);
+            return _context.Vehicles.Any(e => e.Id == id);
         }
     }
 }
