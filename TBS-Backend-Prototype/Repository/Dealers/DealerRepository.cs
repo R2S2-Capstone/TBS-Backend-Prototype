@@ -1,38 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TBS_Backend_Prototype.Models;
 
 namespace TBS_Backend_Prototype.Repository.Dealers
 {
     public class DealerRepository : IDealerRepository
     {
-        public void Add(Dealer dealer)
+        private readonly ApplicationDbContext _context;
+
+        public DealerRepository(ApplicationDbContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
         }
 
-        public bool DealerExists(int id)
+        public async Task Add(Dealer dealer)
         {
-            throw new System.NotImplementedException();
+            await _context.Dealers.AddAsync(dealer);
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Dealer> GetAllDealers()
+        public async Task<bool> DealerExistsAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return await _context.Dealers.AnyAsync(d => d.Id == id);
         }
 
-        public Dealer GetById(int id)
+        public async Task<IEnumerable<Dealer>> GetAllDealers()
         {
-            throw new System.NotImplementedException();
+            return await _context.Dealers.ToListAsync();
         }
 
-        public void Remove(int id)
+        public async Task<Dealer> GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return await _context.Dealers.FirstOrDefaultAsync(d => d.Id == id);
         }
 
-        public void Update(Dealer dealer)
+        public async Task Remove(int id)
         {
-            throw new System.NotImplementedException();
+            _context.Dealers.Remove(await GetById(id));
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(Dealer dealer)
+        {
+            await Remove(dealer.Id);
+            await Add(dealer);
         }
     }
 }

@@ -1,38 +1,53 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TBS_Backend_Prototype.Models;
 
 namespace TBS_Backend_Prototype.Repository.Vehicles
 {
     public class VehicleFakeRepository : IVehicleRepository
     {
-        public void Add(Vehicle vehicle)
+        public List<Vehicle> Vehicles { get; set; }
+
+        public VehicleFakeRepository()
         {
-            throw new System.NotImplementedException();
+            Vehicles = new List<Vehicle>()
+            {
+                new Vehicle() { Make = "Ford", Model = "Escape", Year = 2019 },
+                new Vehicle() { Make = "Ford", Model = "Mustang", Year = 1975 },
+                new Vehicle() { Make = "Tesla", Model = "Model 3", Year = 2019 },
+            };
         }
 
-        public IEnumerable<Vehicle> GetAllVehicles()
+        public Task Add(Vehicle vehicle)
         {
-            throw new System.NotImplementedException();
+            Vehicles.Add(vehicle);
+            return Task.CompletedTask;
         }
 
-        public Vehicle GetById(int id)
+        public async Task<IEnumerable<Vehicle>> GetAllVehicles()
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(Vehicles);
         }
 
-        public void Remove(int id)
+        public async Task<Vehicle> GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(Vehicles.Find(d => d.Id == id));
         }
 
-        public void Update(Vehicle vehicle)
+        public async Task Remove(int id)
         {
-            throw new System.NotImplementedException();
+            Vehicles.Remove(await GetById(id));
         }
 
-        public bool VehicleExists(int id)
+        public async Task Update(Vehicle vehicle)
         {
-            throw new System.NotImplementedException();
+            await Remove(vehicle.Id);
+            await Add(vehicle);
+        }
+
+        public async Task<bool> VehicleExists(int id)
+        {
+            return Vehicles.Contains(await GetById(id));
         }
     }
 }

@@ -1,39 +1,50 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TBS_Backend_Prototype.Models;
 
 namespace TBS_Backend_Prototype.Repository.Vehicles
 {
     public class VehicleRepository : IVehicleRepository
     {
-        public void Add(Vehicle vehicle)
+        private readonly ApplicationDbContext _context;
+
+        public VehicleRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public IEnumerable<Vehicle> GetAllVehicles()
+        public async Task Add(Vehicle vehicle)
         {
-            throw new NotImplementedException();
+            await _context.Vehicles.AddAsync(vehicle);
+            await _context.SaveChangesAsync();
         }
 
-        public Vehicle GetById(int id)
+        public async Task<IEnumerable<Vehicle>> GetAllVehicles()
         {
-            throw new NotImplementedException();
+            return await _context.Vehicles.ToListAsync();
         }
 
-        public void Remove(int id)
+        public async Task<Vehicle> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Vehicles.FirstOrDefaultAsync(v => v.Id == id);
         }
 
-        public void Update(Vehicle vehicle)
+        public async Task Remove(int id)
         {
-            throw new NotImplementedException();
+            _context.Vehicles.Remove(await GetById(id));
+            await _context.SaveChangesAsync();
         }
 
-        public bool VehicleExists(int id)
+        public  async Task Update(Vehicle vehicle)
         {
-            throw new NotImplementedException();
+            await Remove(vehicle.Id);
+            await Add(vehicle);
+        }
+
+        public async Task<bool> VehicleExists(int id)
+        {
+            return await _context.Vehicles.AnyAsync(v => v.Id == id);
         }
     }
 }

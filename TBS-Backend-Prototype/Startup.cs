@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TBS_Backend_Prototype.Models;
+using TBS_Backend_Prototype.Repository.Dealers;
+using TBS_Backend_Prototype.Repository.Vehicles;
 
 namespace TBS_Backend_Prototype
 {
@@ -23,6 +25,8 @@ namespace TBS_Backend_Prototype
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("TBS")));
             services.AddScoped<ApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<IDealerRepository, DealerRepository>();
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;

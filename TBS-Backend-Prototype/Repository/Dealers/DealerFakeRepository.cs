@@ -1,39 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TBS_Backend_Prototype.Models;
 
 namespace TBS_Backend_Prototype.Repository.Dealers
 {
     public class DealerFakeRepository : IDealerRepository
     {
-        public void Add(Dealer dealer)
+        public List<Dealer> Dealers { get; set; }
+        public DealerFakeRepository()
         {
-            throw new NotImplementedException();
+            Dealers = new List<Dealer>()
+            {
+                new Dealer() { CompanyName = "TBS 1", ContactFirstName = "TBS", ContactLastName = "One", ContactEmail = "tbs@one.com", ContactPhoneNumber = "123-456-789", ComapnyPaymentEmail = "payment@test.com", ComapnyAddress = "123 Test Drive" },
+                new Dealer() { CompanyName = "TBS 2", ContactFirstName = "TBS", ContactLastName = "Two", ContactEmail = "tbs@two.com", ContactPhoneNumber = "123-456-789", ComapnyPaymentEmail = "payment@test.com", ComapnyAddress = "123 Test Drive" },
+                new Dealer() { CompanyName = "TBS 3", ContactFirstName = "TBS", ContactLastName = "Three", ContactEmail = "tbs@three.com", ContactPhoneNumber = "123-456-789", ComapnyPaymentEmail = "payment@test.com", ComapnyAddress = "123 Test Drive" },
+                new Dealer() { CompanyName = "TBS 4", ContactFirstName = "TBS", ContactLastName = "Four", ContactEmail = "tbs@four.com", ContactPhoneNumber = "123-456-789", ComapnyPaymentEmail = "payment@test.com", ComapnyAddress = "123 Test Drive" },
+            };
         }
 
-        public bool DealerExists(int id)
+        public Task Add(Dealer dealer)
         {
-            throw new NotImplementedException();
+            Dealers.Add(dealer);
+            return Task.CompletedTask;
         }
 
-        public IEnumerable<Dealer> GetAllDealers()
+        public async Task<bool> DealerExistsAsync(int id)
         {
-            throw new NotImplementedException();
+            return Dealers.Contains(await GetById(id));
         }
 
-        public Dealer GetById(int id)
+        public async Task<IEnumerable<Dealer>> GetAllDealers()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Dealers);
         }
 
-        public void Remove(int id)
+        public async Task<Dealer> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Dealers.Find(d => d.Id == id));
         }
 
-        public void Update(Dealer dealer)
+        public async Task Remove(int id)
         {
-            throw new NotImplementedException();
+            Dealers.Remove(await GetById(id));
+        }
+
+        public async Task Update(Dealer dealer)
+        {
+            await Remove(dealer.Id);
+            await Add(dealer);
         }
     }
 }
