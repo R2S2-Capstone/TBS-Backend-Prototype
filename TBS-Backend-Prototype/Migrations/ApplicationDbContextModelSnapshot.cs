@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TBS_Backend_Prototype.Models;
 
 namespace TBS_Backend_Prototype.Migrations
@@ -13,7 +14,7 @@ namespace TBS_Backend_Prototype.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -26,10 +27,10 @@ namespace TBS_Backend_Prototype.Migrations
                     b.Property<string>("CompanyAddress")
                         .IsRequired();
 
-                    b.Property<string>("CompanyPaymentEmail")
+                    b.Property<string>("CompanyName")
                         .IsRequired();
 
-                    b.Property<string>("CompanyName")
+                    b.Property<string>("CompanyPaymentEmail")
                         .IsRequired();
 
                     b.Property<string>("ContactEmail")

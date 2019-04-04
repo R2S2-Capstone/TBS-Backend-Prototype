@@ -14,8 +14,8 @@ namespace TBS_Backend_Prototype.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CompanyName = table.Column<string>(nullable: false),
-                    ComapnyPaymentEmail = table.Column<string>(nullable: false),
-                    ComapnyAddress = table.Column<string>(nullable: false),
+                    CompanyPaymentEmail = table.Column<string>(nullable: false),
+                    CompanyAddress = table.Column<string>(nullable: false),
                     ContactFirstName = table.Column<string>(nullable: false),
                     ContactLastName = table.Column<string>(nullable: false),
                     ContactPhoneNumber = table.Column<string>(nullable: false),

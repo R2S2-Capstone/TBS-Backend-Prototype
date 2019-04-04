@@ -20,7 +20,7 @@ namespace TBS.Tests.Controllers.API
         }
 
         [Fact]
-        public async Task TransportersController_GetTransportersReturnsExpectedCount()
+        public async Task VehiclesController_GetVehiclesReturnsExpectedCount()
         {
             // Arrange
 
@@ -35,7 +35,7 @@ namespace TBS.Tests.Controllers.API
         [InlineData(100)]
         [InlineData(101)]
         [InlineData(102)]
-        public async Task TransportersController_GetTransporterReturnsNotFound(int id)
+        public async Task VehiclesController_GetTransporterReturnsNotFound(int id)
         {
             // Arrange
 
@@ -52,7 +52,7 @@ namespace TBS.Tests.Controllers.API
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public async Task TransportersController_GetTransporterReturnsTransporter(int id)
+        public async Task VehiclesController_GetTransporterReturnsTransporter(int id)
         {
             // Arrange
 
@@ -66,7 +66,7 @@ namespace TBS.Tests.Controllers.API
         [InlineData(1, 2)]
         [InlineData(2, 1)]
         [InlineData(3, 1)]
-        public async Task TransportersController_PutTransportersReturnsBadRequestResultWhenIdIsNotEqual(int idOne, int idTwo)
+        public async Task VehiclesController_PutVehiclesReturnsBadRequestResultWhenIdIsNotEqual(int idOne, int idTwo)
         {
             // Arrange
 
@@ -81,7 +81,7 @@ namespace TBS.Tests.Controllers.API
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public async Task TransportersController_PutTransportersReturnsNoContent(int id)
+        public async Task VehiclesController_PutVehiclesReturnsNoContent(int id)
         {
             // Arrange
 
@@ -96,7 +96,7 @@ namespace TBS.Tests.Controllers.API
         [InlineData(100)]
         [InlineData(101)]
         [InlineData(102)]
-        public async Task TransportersController_DeleteTransporterReturnsNotFound(int id)
+        public async Task VehiclesController_DeleteTransporterReturnsNotFound(int id)
         {
             // Arrange
 
@@ -112,7 +112,7 @@ namespace TBS.Tests.Controllers.API
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public async Task TransportersController_DeleteTransporterDeletesTransporter(int id)
+        public async Task VehiclesController_DeleteTransporterDeletesTransporter(int id)
         {
             // Arrange
 
@@ -128,7 +128,7 @@ namespace TBS.Tests.Controllers.API
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public async Task TransportersController_TransporterExistsReturnsTrue(int id)
+        public async Task VehiclesController_TransporterExistsReturnsTrue(int id)
         {
             // Arrange
 
@@ -143,7 +143,7 @@ namespace TBS.Tests.Controllers.API
         [InlineData(100)]
         [InlineData(101)]
         [InlineData(102)]
-        public async Task TransportersController_TransporterExistsReturnsFalse(int id)
+        public async Task VehiclesController_TransporterExistsReturnsFalse(int id)
         {
             // Arrange
 
