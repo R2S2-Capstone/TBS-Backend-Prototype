@@ -91,7 +91,7 @@ namespace TBS_Backend_Prototype.Controllers.api
             return dealer;
         }
 
-        private async Task<bool> DealerExistsAsync(int id)
+        public async Task<bool> DealerExistsAsync(int id)
         {
             return await _repository.DealerExistsAsync(id);
         }

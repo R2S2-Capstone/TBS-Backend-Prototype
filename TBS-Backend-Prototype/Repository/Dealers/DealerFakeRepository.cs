@@ -11,10 +11,10 @@ namespace TBS_Backend_Prototype.Repository.Dealers
         {
             Dealers = new List<Dealer>()
             {
-                new Dealer() { CompanyName = "TBS 1", ContactFirstName = "TBS", ContactLastName = "One", ContactEmail = "tbs@one.com", ContactPhoneNumber = "123-456-789", ComapnyPaymentEmail = "payment@test.com", ComapnyAddress = "123 Test Drive" },
-                new Dealer() { CompanyName = "TBS 2", ContactFirstName = "TBS", ContactLastName = "Two", ContactEmail = "tbs@two.com", ContactPhoneNumber = "123-456-789", ComapnyPaymentEmail = "payment@test.com", ComapnyAddress = "123 Test Drive" },
-                new Dealer() { CompanyName = "TBS 3", ContactFirstName = "TBS", ContactLastName = "Three", ContactEmail = "tbs@three.com", ContactPhoneNumber = "123-456-789", ComapnyPaymentEmail = "payment@test.com", ComapnyAddress = "123 Test Drive" },
-                new Dealer() { CompanyName = "TBS 4", ContactFirstName = "TBS", ContactLastName = "Four", ContactEmail = "tbs@four.com", ContactPhoneNumber = "123-456-789", ComapnyPaymentEmail = "payment@test.com", ComapnyAddress = "123 Test Drive" },
+                new Dealer() { Id = 1, CompanyName = "TBS 1", ContactFirstName = "TBS", ContactLastName = "One", ContactEmail = "tbs@one.com", ContactPhoneNumber = "123-456-789", CompanyPaymentEmail = "payment@test.com", CompanyAddress = "123 Test Drive" },
+                new Dealer() { Id = 2, CompanyName = "TBS 2", ContactFirstName = "TBS", ContactLastName = "Two", ContactEmail = "tbs@two.com", ContactPhoneNumber = "123-456-789", CompanyPaymentEmail = "payment@test.com", CompanyAddress = "123 Test Drive" },
+                new Dealer() { Id = 3, CompanyName = "TBS 3", ContactFirstName = "TBS", ContactLastName = "Three", ContactEmail = "tbs@three.com", ContactPhoneNumber = "123-456-789", CompanyPaymentEmail = "payment@test.com", CompanyAddress = "123 Test Drive" },
+                new Dealer() { Id = 4, CompanyName = "TBS 4", ContactFirstName = "TBS", ContactLastName = "Four", ContactEmail = "tbs@four.com", ContactPhoneNumber = "123-456-789", CompanyPaymentEmail = "payment@test.com", CompanyAddress = "123 Test Drive" },
             };
         }
 

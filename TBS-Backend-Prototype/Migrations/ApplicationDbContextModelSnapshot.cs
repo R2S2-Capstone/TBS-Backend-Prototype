@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TBS_Backend_Prototype.Models;
 
 namespace TBS_Backend_Prototype.Migrations
@@ -24,10 +23,10 @@ namespace TBS_Backend_Prototype.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ComapnyAddress")
+                    b.Property<string>("CompanyAddress")
                         .IsRequired();
 
-                    b.Property<string>("ComapnyPaymentEmail")
+                    b.Property<string>("CompanyPaymentEmail")
                         .IsRequired();
 
                     b.Property<string>("CompanyName")

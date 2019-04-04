@@ -91,7 +91,7 @@ namespace TBS_Backend_Prototype.Controllers.api
             return vehicle;
         }
 
-        private async Task<bool> VehicleExists(int id)
+        public async Task<bool> VehicleExists(int id)
         {
             return await _repository.VehicleExists(id);
         }

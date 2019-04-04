@@ -48,7 +48,7 @@ namespace TBS_Backend_Prototype.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CompanyName,ComapnyPaymentEmail,ComapnyAddress,ContactFirstName,ContactLastName,ContactPhoneNumber,ContactEmail")] Dealer dealer)
+        public async Task<IActionResult> Create([Bind("Id,CompanyName,CompanyPaymentEmail,CompanyAddress,ContactFirstName,ContactLastName,ContactPhoneNumber,ContactEmail")] Dealer dealer)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace TBS_Backend_Prototype.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyName,ComapnyPaymentEmail,ComapnyAddress,ContactFirstName,ContactLastName,ContactPhoneNumber,ContactEmail")] Dealer dealer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyName,CompanyPaymentEmail,CompanyAddress,ContactFirstName,ContactLastName,ContactPhoneNumber,ContactEmail")] Dealer dealer)
         {
             if (id != dealer.Id)
             {
@@ -132,7 +132,7 @@ namespace TBS_Backend_Prototype.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DealerExists(int id)
+        public bool DealerExists(int id)
         {
             var result = _repository.DealerExistsAsync(id);
             return result.Result;

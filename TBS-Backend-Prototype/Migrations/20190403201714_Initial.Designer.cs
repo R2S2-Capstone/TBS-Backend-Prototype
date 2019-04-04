@@ -26,10 +26,10 @@ namespace TBS_Backend_Prototype.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ComapnyAddress")
+                    b.Property<string>("CompanyAddress")
                         .IsRequired();
 
-                    b.Property<string>("ComapnyPaymentEmail")
+                    b.Property<string>("CompanyPaymentEmail")
                         .IsRequired();
 
                     b.Property<string>("CompanyName")

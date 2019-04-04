@@ -12,9 +12,10 @@ namespace TBS_Backend_Prototype.Repository.Vehicles
         {
             Vehicles = new List<Vehicle>()
             {
-                new Vehicle() { Make = "Ford", Model = "Escape", Year = 2019 },
-                new Vehicle() { Make = "Ford", Model = "Mustang", Year = 1975 },
-                new Vehicle() { Make = "Tesla", Model = "Model 3", Year = 2019 },
+                new Vehicle() { Id = 1, Make = "Ford", Model = "Escape", Year = 2019 },
+                new Vehicle() { Id = 2, Make = "Ford", Model = "Mustang", Year = 1975 },
+                new Vehicle() { Id= 3, Make = "Tesla", Model = "Model 3", Year = 2019 },
+                new Vehicle() { Id= 4, Make = "Tesla", Model = "Model Y", Year = 2017 },
             };
         }
 

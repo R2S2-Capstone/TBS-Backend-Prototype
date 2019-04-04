@@ -14,11 +14,11 @@ namespace TBS_Backend_Prototype.Models
         [Required(ErrorMessage = " Please enter an email")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         [DisplayName("Payment email")]
-        public string ComapnyPaymentEmail { get; set; }
+        public string CompanyPaymentEmail { get; set; }
 
         [Required(ErrorMessage = " Please enter an address")]
         [DisplayName("Company address")]
-        public string ComapnyAddress { get; set; }
+        public string CompanyAddress { get; set; }
 
         [Required(ErrorMessage = "Please enter a first name")]
         [DisplayName("Contact first name")]

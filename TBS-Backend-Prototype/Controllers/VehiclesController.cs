@@ -135,7 +135,7 @@ namespace TBS_Backend_Prototype.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VehicleExists(int id)
+        public bool VehicleExists(int id)
         {
             var result = _repository.VehicleExists(id);
             return result.Result;
